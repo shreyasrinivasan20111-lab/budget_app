@@ -1,6 +1,21 @@
 // Real API Integration for Affiliate Links
 // This service integrates with actual shopping APIs to get real products and affiliate links
 
+export interface ProductResult {
+  id: string;
+  name: string;
+  price: number;
+  store: string;
+  link: string;
+  affiliateLink: string;
+  inStock: boolean;
+  stockLevel?: string;
+  rating: number;
+  image?: string;
+  description?: string;
+  estimatedCommission?: number;
+}
+
 interface RapidAPIAmazonProduct {
   title: string;
   price: string;
@@ -181,7 +196,7 @@ export class RealAPIService {
   }
 
   // Placeholder for Amazon request signing
-  private async createAmazonSignedRequest(query: string): Promise<{ authorization: string; amzDate: string }> {
+  private async createAmazonSignedRequest(_query: string): Promise<{ authorization: string; amzDate: string }> {
     // This would implement AWS Signature Version 4
     // For now, return placeholder - you'd use AWS SDK or implement signing
     return {
@@ -207,23 +222,27 @@ export class RealAPIService {
     }
   }
 
-  private transformSerpAPIResults(results: any[]): ProductResult[] {
-    return results.map((result, index) => ({
-      id: `serp-${index}`,
-      name: result.title,
-      price: result.extracted_price || 0,
-      store: result.source,
-      link: result.link,
-      affiliateLink: this.createGenericAffiliateLink(result.link, result.source),
-      inStock: true, // SerpAPI doesn't always provide stock info
-      rating: result.rating || 0,
-      image: result.thumbnail,
-      description: result.title,
-      estimatedCommission: this.calculateCommission(result.source, result.extracted_price || 0)
-    }));
+  private transformSerpAPIResults(results: unknown[]): ProductResult[] {
+    return results.map((item: unknown, index) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result = item as any; // Type assertion for unknown API response structure
+      return {
+        id: `serp-${index}`,
+        name: result.title,
+        price: result.extracted_price || 0,
+        store: result.source,
+        link: result.link,
+        affiliateLink: this.createGenericAffiliateLink(result.link, result.source),
+        inStock: true, // SerpAPI doesn't always provide stock info
+        rating: result.rating || 0,
+        image: result.thumbnail,
+        description: result.title,
+        estimatedCommission: this.calculateCommission(result.source, result.extracted_price || 0)
+      };
+    });
   }
 
-  private createGenericAffiliateLink(originalUrl: string, store: string): string {
+  private createGenericAffiliateLink(originalUrl: string, _store: string): string {
     // For non-Amazon stores, you'd implement their specific affiliate link format
     // This is a placeholder - each store has different requirements
     return originalUrl; // Return original URL for now
@@ -232,6 +251,3 @@ export class RealAPIService {
 
 // Export singleton instance
 export const realAPIService = new RealAPIService();
-
-// Export types
-export type { ProductResult };

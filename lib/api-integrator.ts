@@ -170,7 +170,7 @@ export class ShoppingAPIIntegrator {
   }
 
   // Mock results for development with affiliate links
-  private getMockAmazonResults(query: string, budget: number): ProductResult[] {
+  private getMockAmazonResults(query: string, _budget: number): ProductResult[] {
     // Always prioritize cheapest options first
     // 80% chance of ultra-cheap items (0.01 to $3)
     // 20% chance of moderate items ($3 to $15)
@@ -202,7 +202,7 @@ export class ShoppingAPIIntegrator {
     }];
   }
 
-  private getMockEbayResults(query: string, budget: number): ProductResult[] {
+  private getMockEbayResults(query: string, _budget: number): ProductResult[] {
     // Always prioritize cheapest options first  
     // 85% chance of ultra-cheap items (0.01 to $2)
     // 15% chance of moderate items ($2 to $10)
@@ -232,7 +232,7 @@ export class ShoppingAPIIntegrator {
     }];
   }
 
-  private getMockTargetResults(query: string, budget: number): ProductResult[] {
+  private getMockTargetResults(query: string, _budget: number): ProductResult[] {
     // Always prioritize cheapest options first
     // 75% chance of ultra-cheap items (0.01 to $4)
     // 25% chance of moderate items ($4 to $12)

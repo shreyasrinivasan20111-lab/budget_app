@@ -76,7 +76,7 @@ export class RapidAPIService {
     try {
       console.log(`RapidAPI: Searching multiple stores for "${query}"`);
       
-      const response = await fetch('https://real-time-product-search.p.rapidapi.com/search', {
+      const _response = await fetch('https://real-time-product-search.p.rapidapi.com/search', {
         method: 'GET',
         headers: {
           'X-RapidAPI-Key': this.apiKey,
@@ -159,8 +159,10 @@ export class RapidAPIService {
   }
 
   // Transform multi-store API results
-  private transformMultiStoreResults(products: any[]): ProductResult[] {
-    return products.map((product, index) => {
+  private transformMultiStoreResults(products: unknown[]): ProductResult[] {
+    return products.map((item: unknown, index) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const product = item as any; // Type assertion for unknown API response structure
       const price = this.parsePrice(product.price || product.offer?.price || '0');
       const store = this.detectStore(product.source || product.merchant || 'Unknown');
       
@@ -181,8 +183,10 @@ export class RapidAPIService {
   }
 
   // Transform price comparison results
-  private transformPriceComparisonResults(products: any[]): ProductResult[] {
-    return products.map((product, index) => {
+  private transformPriceComparisonResults(products: unknown[]): ProductResult[] {
+    return products.map((item: unknown, index) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const product = item as any; // Type assertion for unknown API response structure
       const price = this.parsePrice(product.price);
       const store = this.detectStore(product.store || product.retailer);
       

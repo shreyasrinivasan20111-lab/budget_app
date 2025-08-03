@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiIntegrator } from '@/lib/api-integrator';
 import { affiliateManager } from '@/lib/affiliate-manager';
-import { realAPIService, ProductResult } from '@/lib/real-api-service';
+import { realAPIService } from '@/lib/real-api-service';
 import { rapidAPIService } from '@/lib/rapidapi-service';
 
 interface SearchRequest {
@@ -606,14 +606,12 @@ function getRealisticStockStatus(item: string, brand: string, store: string, pri
   const brandLower = brand.toLowerCase();
   
   // Base stock probability - starts high for most items
-  let stockProbability = 0.85; // 85% chance of being in stock
   let lowStockProbability = 0.15; // 15% chance of low stock
   let outOfStockProbability = 0.05; // 5% chance of out of stock
   
   // High-demand categories more likely to have stock issues
   if (itemLower.includes('phone') || itemLower.includes('smartphone')) {
     if (brandLower.includes('apple') || brandLower.includes('samsung')) {
-      stockProbability = 0.70; // Popular phones often have stock issues
       lowStockProbability = 0.25;
       outOfStockProbability = 0.15;
     }
@@ -621,7 +619,6 @@ function getRealisticStockStatus(item: string, brand: string, store: string, pri
   
   if (itemLower.includes('laptop') || itemLower.includes('notebook')) {
     if (brandLower.includes('apple') || brandLower.includes('dell')) {
-      stockProbability = 0.75;
       lowStockProbability = 0.20;
       outOfStockProbability = 0.10;
     }
@@ -630,7 +627,6 @@ function getRealisticStockStatus(item: string, brand: string, store: string, pri
   // Gaming and tech accessories often have stock fluctuations
   if (itemLower.includes('headphones') || itemLower.includes('earbuds') || itemLower.includes('speaker')) {
     if (brandLower.includes('apple') || brandLower.includes('bose') || brandLower.includes('sony')) {
-      stockProbability = 0.80;
       lowStockProbability = 0.15;
       outOfStockProbability = 0.08;
     }

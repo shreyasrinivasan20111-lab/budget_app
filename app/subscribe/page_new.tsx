@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function Subscribe() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'basic' | 'premium'>('basic');
+  const [_selectedPlan, setSelectedPlan] = useState<'basic' | 'premium'>('basic');
 
   useEffect(() => {
     // Check URL params for plan selection
