@@ -1,4 +1,4 @@
-# SmartFête - AI-Powered Budget Planning Website
+# SmartBudget AI - AI-Powered Budget Planning Website
 
 An intelligent shopping assistant that helps users find the best deals from multiple stores while staying within their budget. Perfect for international users with multi-currency support and location-based recommendations.
 
@@ -10,7 +10,7 @@ An intelligent shopping assistant that helps users find the best deals from mult
 - **Budget Optimization**: Suggests alternatives to stay within budget
 - **Location-Based Search**: Products available in your area
 - **Affiliate Link Integration**: Monetization through affiliate programs
-- **Usage Quota System**: 35 free searches with usage tracking
+- **Usage Quota System**: 35 free searches, then $20/year subscription
 
 ### Advanced Features
 - **Price Comparison**: Sort by price, rating, and availability
@@ -38,6 +38,7 @@ src/
 │   │   ├── currency/route.ts    # Currency conversion
 │   │   ├── usage/route.ts       # Usage tracking
 │   │   └── payments/route.ts    # Stripe payments
+│   ├── subscribe/page.tsx       # Subscription page
 │   └── page.tsx                 # Main application
 ├── components/
 │   ├── CurrencySelector.tsx     # Currency selection
@@ -112,14 +113,34 @@ TARGET_AFFILIATE_ID=your_id
 4. **Budget Analysis**: Shows if within budget, suggests alternatives
 5. **Usage Tracking**: Monitors free searches, prompts for upgrade
 
-## 💳 Monetization
+## � Premium Features
+
+### AI Theme Shopping ($10/year)
+- **Theme-Based Search**: Enter style themes like "Minimalist Modern" or "Cozy Rustic"
+- **AI Curation**: Products matched to aesthetic preferences
+- **Style Collections**: Coordinated product recommendations
+- **Premium Support**: Priority customer assistance
+
+### Popular Themes
+- Minimalist Modern
+- Cozy Rustic  
+- Elegant Luxury
+- Bohemian Chic
+- Industrial Urban
+- Scandinavian Clean
+- Vintage Retro
+- Tropical Paradise
+
+## �💳 Monetization
 
 ### Revenue Streams
-1. **Affiliate Links**: Commission from Amazon, Walmart, Target, eBay
-2. **Partner Integrations**: Revenue sharing with retail partners
-3. **API Usage**: Commission-based tracking and analytics
+1. **Premium Subscriptions**: $10/year for AI theme shopping
+2. **Affiliate Links**: Commission from Amazon, Walmart, Target, eBay
+3. **Partner Integrations**: Revenue sharing with retail partners
+4. **API Usage**: Commission-based tracking and analytics
 
 ### Payment Processing
+- Simple subscription management
 - Secure affiliate link generation
 - Commission tracking and analytics
 - Multi-store affiliate program support
@@ -187,7 +208,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Documentation**: Check this README and code comments
 - **Issues**: Create GitHub issues for bugs
 - **Feature Requests**: Use GitHub discussions
-- **Email**: contact@smartfete.com (example)
+- **Email**: contact@smartbudget-ai.com (example)
 
 ## 🔮 Future Enhancements
 
