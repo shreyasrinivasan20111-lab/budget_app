@@ -24,6 +24,22 @@
 .DS_Store
 *.pem
 
+# environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+!.env.example
+!.env.local.example
+!.env.local.template
+
+# test files
+test-rapidapi.js
+*.backup
+*.bak
+
 # debug
 npm-debug.log*
 yarn-debug.log*

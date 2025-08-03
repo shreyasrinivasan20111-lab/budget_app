@@ -1,16 +1,16 @@
-# SmartFête - AI-Powered Budget Planning Website
+# SmartBudget AI - AI-Powered Budget Planning Website
 
 An intelligent shopping assistant that helps users find the best deals from multiple stores while staying within their budget. Perfect for international users with multi-currency support and location-based recommendations.
 
 ## 🚀 Features
 
 ### Core Features
-- **AI Shopping Assistant**: Searches Amazon, Walmart, Target, and other stores
+- **AI Shopping Assistant**: Searches Amazon and other online stores
 - **Multi-Currency Support**: 10+ currencies with real-time conversion
 - **Budget Optimization**: Suggests alternatives to stay within budget
 - **Location-Based Search**: Products available in your area
 - **Affiliate Link Integration**: Monetization through affiliate programs
-- **Usage Quota System**: 50 free searches with usage tracking
+- **Usage Quota System**: 35 free searches with usage tracking
 
 ### Advanced Features
 - **Price Comparison**: Sort by price, rating, and availability
@@ -93,8 +93,6 @@ EXCHANGE_RATE_API_KEY=your_api_key
 
 # Affiliate IDs (Optional)
 AMAZON_AFFILIATE_ID=your_id
-WALMART_AFFILIATE_ID=your_id
-TARGET_AFFILIATE_ID=your_id
 ```
 
 ### Customization
@@ -115,7 +113,7 @@ TARGET_AFFILIATE_ID=your_id
 ## 💳 Monetization
 
 ### Revenue Streams
-1. **Affiliate Links**: Commission from Amazon, Walmart, Target, eBay
+1. **Affiliate Links**: Commission from Amazon and other retail partners
 2. **Partner Integrations**: Revenue sharing with retail partners
 3. **API Usage**: Commission-based tracking and analytics
 
@@ -187,7 +185,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Documentation**: Check this README and code comments
 - **Issues**: Create GitHub issues for bugs
 - **Feature Requests**: Use GitHub discussions
-- **Email**: contact@smartfete.com (example)
+- **Email**: contact@smartbudget-ai.com (example)
 
 ## 🔮 Future Enhancements
 
