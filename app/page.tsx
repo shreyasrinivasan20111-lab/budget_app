@@ -190,7 +190,6 @@ export default function Home() {
     } catch (error) {
       console.error('Detailed search error:', error);
       console.error('Error type:', typeof error);
-      console.error('Error constructor:', error.constructor.name);
       
       let errorMessage = 'Unknown error occurred';
       if (error instanceof TypeError && error.message.includes('fetch')) {
