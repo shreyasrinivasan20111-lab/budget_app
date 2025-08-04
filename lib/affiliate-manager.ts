@@ -19,7 +19,7 @@ export const AFFILIATE_CONFIGS: Record<string, AffiliateConfig> = {
     affiliateId: process.env.AMAZON_AFFILIATE_ID || 'yourstore-20', // Replace with your Amazon Associate tag
     tagParameter: 'tag',
     trackingParameter: 'ascsubtag',
-    commissionRate: 4.0, // Amazon's average commission rate
+    commissionRate: 5.0, // Updated 2025 Amazon commission rate
     enabled: true,
   },
   ebay: {
@@ -28,7 +28,7 @@ export const AFFILIATE_CONFIGS: Record<string, AffiliateConfig> = {
     affiliateId: process.env.EBAY_PARTNER_ID || 'your-ebay-partner-id',
     tagParameter: 'campid',
     trackingParameter: 'customid',
-    commissionRate: 3.0,
+    commissionRate: 4.0, // Updated 2025 eBay partner network rate
     enabled: true,
   },
   walmart: {
@@ -37,7 +37,7 @@ export const AFFILIATE_CONFIGS: Record<string, AffiliateConfig> = {
     affiliateId: process.env.WALMART_AFFILIATE_ID || 'your-walmart-id',
     tagParameter: 'wmlspartner',
     trackingParameter: 'sourceid',
-    commissionRate: 4.0,
+    commissionRate: 4.5, // Updated 2025 Walmart commission rate
     enabled: true,
   },
   target: {
@@ -46,7 +46,7 @@ export const AFFILIATE_CONFIGS: Record<string, AffiliateConfig> = {
     affiliateId: process.env.TARGET_AFFILIATE_ID || 'your-target-id',
     tagParameter: 'afid',
     trackingParameter: 'ref',
-    commissionRate: 8.0, // Target Circle has good rates
+    commissionRate: 8.0, // Target Circle maintains good rates
     enabled: true,
   },
   bestbuy: {
@@ -55,7 +55,7 @@ export const AFFILIATE_CONFIGS: Record<string, AffiliateConfig> = {
     affiliateId: process.env.BESTBUY_AFFILIATE_ID || 'your-bestbuy-id',
     tagParameter: 'ref',
     trackingParameter: 'loc',
-    commissionRate: 4.0,
+    commissionRate: 4.5, // Updated 2025 Best Buy commission rate
     enabled: true,
   },
   wayfair: {
@@ -74,6 +74,33 @@ export const AFFILIATE_CONFIGS: Record<string, AffiliateConfig> = {
     tagParameter: 'aff_short_key',
     trackingParameter: 'terminal_id',
     commissionRate: 8.5,
+    enabled: true,
+  },
+  homedepot: {
+    store: 'Home Depot',
+    baseUrl: 'https://homedepot.com',
+    affiliateId: process.env.HOMEDEPOT_AFFILIATE_ID || 'your-homedepot-id',
+    tagParameter: 'cm_mmc',
+    trackingParameter: 'source',
+    commissionRate: 3.0, // Home improvement category
+    enabled: true,
+  },
+  macys: {
+    store: 'Macy\'s',
+    baseUrl: 'https://macys.com',
+    affiliateId: process.env.MACYS_AFFILIATE_ID || 'your-macys-id',
+    tagParameter: 'cm_mmc',
+    trackingParameter: 'source',
+    commissionRate: 6.0, // Department store rates
+    enabled: true,
+  },
+  costco: {
+    store: 'Costco',
+    baseUrl: 'https://costco.com',
+    affiliateId: process.env.COSTCO_AFFILIATE_ID || 'your-costco-id',
+    tagParameter: 'cm_re',
+    trackingParameter: 'source',
+    commissionRate: 2.0, // Wholesale membership rates
     enabled: true,
   }
 };

@@ -3,6 +3,7 @@ import { apiIntegrator } from '@/lib/api-integrator';
 import { affiliateManager } from '@/lib/affiliate-manager';
 import { realAPIService } from '@/lib/real-api-service';
 import { rapidAPIService } from '@/lib/rapidapi-service';
+import { serpAPIService } from '@/lib/serpapi-service';
 
 interface SearchRequest {
   budget: number;
@@ -38,7 +39,22 @@ async function searchProducts(item: string, budget: number, currency: string, lo
   
   // Try to get real API results first
   try {
-    // Try RapidAPI first (easiest to get started and most reliable)
+    // Try SerpAPI first (Google Shopping - most comprehensive)
+    if (process.env.SERPAPI_KEY) {
+      console.log('Trying SerpAPI Google Shopping for real products...');
+      const serpResults = await serpAPIService.searchWithFilters(item, {
+        priceRange: { min: 1, max: budget },
+        location: location || 'United States',
+        maxResults: 12,
+        sortBy: qualityPreference === 'best_price' ? 'price_low' : 'rating'
+      });
+      if (serpResults.length > 0) {
+        console.log(`Found ${serpResults.length} real Google Shopping results for ${item}`);
+        return serpResults;
+      }
+    }
+
+    // Try RapidAPI second (easiest to get started and most reliable)
     if (process.env.RAPIDAPI_KEY) {
       console.log('Trying RapidAPI for real products...');
       const rapidResults = await rapidAPIService.searchProducts(item, 12);

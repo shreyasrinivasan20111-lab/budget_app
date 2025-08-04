@@ -1,5 +1,53 @@
-// Real API Integration for Affiliate Links
-// This service integrates with actual shopping APIs to get real products and affiliate links
+// Real API service - currently configured for RapidAPI integration
+// Falls back to mock data when APIs are not available
+
+export async function searchAmazonProducts(query: string, maxResults: number = 10): Promise<ProductResult[]> {
+  try {
+    console.log(`Searching for products: "${query}"`);
+    
+    // For now, return mock data since RapidAPI integration is handled in rapidapi-service.ts
+    // The main search endpoint will try RapidAPI first, then fall back to this
+    return generateMockAmazonProducts(query, maxResults);
+  } catch (error) {
+    console.error('Search failed:', error);
+    return generateMockAmazonProducts(query, maxResults);
+  }
+}
+
+function generateMockAmazonProducts(query: string, count: number): ProductResult[] {
+  const baseProducts = [
+    { name: 'Laptop', basePrice: 749, category: 'Electronics' },
+    { name: 'Wireless Mouse', basePrice: 32, category: 'Computer Accessories' },
+    { name: 'Keyboard', basePrice: 115, category: 'Computer Accessories' },
+    { name: 'Monitor', basePrice: 259, category: 'Electronics' },
+    { name: 'Headphones', basePrice: 99, category: 'Audio' },
+    { name: 'Smartphone', basePrice: 499, category: 'Electronics' },
+    { name: 'Tablet', basePrice: 329, category: 'Electronics' },
+    { name: 'Speaker', basePrice: 169, category: 'Audio' }
+  ];
+
+  return Array.from({ length: count }, (_, i) => {
+    const base = baseProducts[i % baseProducts.length];
+    const variation = Math.random() * 0.4 + 0.8; // 80% to 120% of base price
+    const price = Math.round(base.basePrice * variation);
+    const productId = `${query.toLowerCase()}-${i + 1}`;
+    
+    return {
+      id: productId,
+      name: `${base.name} - ${query.charAt(0).toUpperCase() + query.slice(1)} Edition`,
+      price: price,
+      store: 'Amazon',
+      link: `https://amazon.com/dp/${productId}`,
+      affiliateLink: `https://amazon.com/dp/${productId}?tag=yourstore-20`,
+      inStock: Math.random() > 0.1, // 90% in stock
+      rating: Math.round((Math.random() * 2 + 3) * 10) / 10, // 3.0 to 5.0
+      image: `/api/placeholder/300/300?text=${encodeURIComponent(base.name)}`,
+      description: `High-quality ${base.name.toLowerCase()} perfect for ${query}. Features modern design and reliable performance.`,
+      asin: `B${Math.random().toString(36).substring(2, 12).toUpperCase()}`,
+      estimatedCommission: Math.round(price * 0.04 * 100) / 100 // 4% commission
+    };
+  });
+}
 
 export interface ProductResult {
   id: string;
@@ -13,6 +61,7 @@ export interface ProductResult {
   rating: number;
   image?: string;
   description?: string;
+  asin?: string;
   estimatedCommission?: number;
 }
 

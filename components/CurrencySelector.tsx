@@ -18,6 +18,16 @@ const currencies = [
   { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
   { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
   { code: 'BRL', name: 'Brazilian Real', symbol: 'R$' },
+  { code: 'KRW', name: 'South Korean Won', symbol: '₩' },
+  { code: 'MXN', name: 'Mexican Peso', symbol: '$' },
+  { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$' },
+  { code: 'HKD', name: 'Hong Kong Dollar', symbol: 'HK$' },
+  { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
+  { code: 'SEK', name: 'Swedish Krona', symbol: 'kr' },
+  { code: 'DKK', name: 'Danish Krone', symbol: 'kr' },
+  { code: 'PLN', name: 'Polish Złoty', symbol: 'zł' },
+  { code: 'CZK', name: 'Czech Koruna', symbol: 'Kč' },
+  { code: 'HUF', name: 'Hungarian Forint', symbol: 'Ft' },
 ];
 
 export default function CurrencySelector({ value, onChange }: CurrencySelectorProps) {

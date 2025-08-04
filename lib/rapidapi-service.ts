@@ -135,6 +135,78 @@ export class RapidAPIService {
     }
   }
 
+  // Method 4: Fetch Amazon Product Details by ASIN
+  async getAmazonProductByASIN(asin: string, countryCode: string = 'US'): Promise<ProductResult | null> {
+    try {
+      console.log(`RapidAPI: Fetching Amazon product details for ASIN "${asin}" in country "${countryCode}"`);
+      
+      const response = await fetch('https://amazon-products1.p.rapidapi.com/product', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-RapidAPI-Key': this.apiKey,
+          'X-RapidAPI-Host': 'amazon-products1.p.rapidapi.com'
+        },
+        body: JSON.stringify({
+          asin: asin,
+          country: countryCode
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Amazon product API failed: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data || !data.product) {
+        console.warn(`No product data found for ASIN: ${asin}`);
+        return null;
+      }
+
+      const product = data.product;
+      const price = this.parsePrice(product.price?.current || product.price?.value || '0');
+      
+      return {
+        id: asin,
+        name: product.title || 'Unknown Product',
+        price: price,
+        store: 'Amazon',
+        link: product.url || `https://amazon.${this.getCountryDomain(countryCode)}/dp/${asin}`,
+        affiliateLink: this.createAmazonAffiliateLink(product.url, asin),
+        inStock: product.availability?.toLowerCase().includes('in stock') !== false,
+        stockLevel: this.parseStockLevel(product.availability),
+        rating: product.rating?.value || product.reviews?.rating || 0,
+        image: product.images?.primary || product.image,
+        description: product.description || product.title || 'Amazon product',
+        asin: asin,
+        estimatedCommission: this.calculateCommission('Amazon', price)
+      };
+    } catch (error) {
+      console.error(`RapidAPI Amazon product fetch failed for ASIN ${asin}:`, error);
+      return null;
+    }
+  }
+
+  // Method 5: Fetch Multiple Amazon Products by ASINs
+  async getAmazonProductsByASINs(asins: string[], countryCode: string = 'US'): Promise<ProductResult[]> {
+    try {
+      console.log(`RapidAPI: Fetching ${asins.length} Amazon products by ASIN in country "${countryCode}"`);
+      
+      const promises = asins.map(asin => this.getAmazonProductByASIN(asin, countryCode));
+      const results = await Promise.allSettled(promises);
+      
+      return results
+        .filter((result): result is PromiseFulfilledResult<ProductResult | null> => 
+          result.status === 'fulfilled' && result.value !== null
+        )
+        .map(result => result.value as ProductResult);
+    } catch (error) {
+      console.error('RapidAPI bulk Amazon product fetch failed:', error);
+      return [];
+    }
+  }
+
   // Transform Amazon API results to our ProductResult format
   private transformAmazonResults(products: RapidAPIProduct[]): ProductResult[] {
     return products.map((product, index) => {
@@ -345,6 +417,42 @@ export class RapidAPIService {
       seen.add(key);
       return true;
     });
+  }
+
+  // Helper method to get country domain for Amazon URLs
+  private getCountryDomain(countryCode: string): string {
+    const domainMap: Record<string, string> = {
+      'US': 'com',
+      'UK': 'co.uk',
+      'CA': 'ca',
+      'DE': 'de',
+      'FR': 'fr',
+      'IT': 'it',
+      'ES': 'es',
+      'JP': 'co.jp',
+      'AU': 'com.au',
+      'IN': 'in',
+      'BR': 'com.br',
+      'MX': 'com.mx'
+    };
+    return domainMap[countryCode.toUpperCase()] || 'com';
+  }
+
+  // Helper method to parse stock level from availability string
+  private parseStockLevel(availability?: string): string {
+    if (!availability) return 'unknown';
+    
+    const availabilityLower = availability.toLowerCase();
+    
+    if (availabilityLower.includes('out of stock') || availabilityLower.includes('unavailable')) {
+      return 'out-of-stock';
+    } else if (availabilityLower.includes('only') && availabilityLower.includes('left')) {
+      return 'low-stock';
+    } else if (availabilityLower.includes('in stock')) {
+      return 'in-stock';
+    } else {
+      return 'unknown';
+    }
   }
 }
 

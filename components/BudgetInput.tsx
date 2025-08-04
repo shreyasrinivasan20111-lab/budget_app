@@ -8,16 +8,10 @@ interface BudgetInputProps {
 
 const getCurrencySymbol = (currency: string) => {
   const symbols: { [key: string]: string } = {
-    USD: '$',
-    EUR: '€',
-    GBP: '£',
-    CAD: 'C$',
-    AUD: 'A$',
-    JPY: '¥',
-    CHF: 'CHF',
-    CNY: '¥',
-    INR: '₹',
-    BRL: 'R$',
+    USD: '$', EUR: '€', GBP: '£', CAD: 'C$', AUD: 'A$',
+    JPY: '¥', CHF: 'CHF', CNY: '¥', INR: '₹', BRL: 'R$',
+    KRW: '₩', MXN: '$', SGD: 'S$', HKD: 'HK$', NOK: 'kr',
+    SEK: 'kr', DKK: 'kr', PLN: 'zł', CZK: 'Kč', HUF: 'Ft'
   };
   return symbols[currency] || '$';
 };

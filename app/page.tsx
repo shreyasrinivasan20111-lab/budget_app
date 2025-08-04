@@ -39,7 +39,7 @@ interface WishlistItem {
 }
 
 export default function Home() {
-  const [budget, setBudget] = useState<number>(0);
+  const [budget, setBudget] = useState<number>(150);
   const [currency, setCurrency] = useState<string>('USD');
   const [location, setLocation] = useState<string>('');
   const [shoppingItems, setShoppingItems] = useState<string[]>([]);
@@ -135,20 +135,30 @@ export default function Home() {
     try {
       console.log('Starting search with:', { budget, currency, items: shoppingItems, location });
       
-      const response = await fetch('/api/search', {
+      // Add more detailed debugging
+      const baseUrl = window.location.origin;
+      const apiUrl = `${baseUrl}/api/search`;
+      console.log('Full API URL:', apiUrl);
+      
+      const requestBody = {
+        budget,
+        currency,
+        items: shoppingItems,
+        location
+      };
+      console.log('Request body:', JSON.stringify(requestBody, null, 2));
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          budget,
-          currency,
-          items: shoppingItems,
-          location
-        })
+        body: JSON.stringify(requestBody)
       });
       
+      console.log('Response received:', response);
       console.log('Response status:', response.status, response.statusText);
+      console.log('Response headers:', response.headers);
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -178,8 +188,17 @@ export default function Home() {
       }
       
     } catch (error) {
-      console.error('Search error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error('Detailed search error:', error);
+      console.error('Error type:', typeof error);
+      console.error('Error constructor:', error.constructor.name);
+      
+      let errorMessage = 'Unknown error occurred';
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        errorMessage = 'Network error - please check your connection and try again';
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       alert(`Search failed: ${errorMessage}. Please try again.`);
     } finally {
       setIsSearching(false);

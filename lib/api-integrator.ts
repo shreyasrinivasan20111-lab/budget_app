@@ -172,15 +172,15 @@ export class ShoppingAPIIntegrator {
   // Mock results for development with affiliate links
   private getMockAmazonResults(query: string, _budget: number): ProductResult[] {
     // Always prioritize cheapest options first
-    // 80% chance of ultra-cheap items (0.01 to $3)
-    // 20% chance of moderate items ($3 to $15)
+    // 70% chance of affordable items ($5 to $25)
+    // 30% chance of moderate items ($25 to $75)
     let basePrice;
-    if (Math.random() < 0.8) {
-      // Ultra-cheap items - from 1 cent to $3
-      basePrice = Math.random() * 2.99 + 0.01;
+    if (Math.random() < 0.7) {
+      // Affordable items - from $5 to $25
+      basePrice = Math.random() * 20 + 5;
     } else {
-      // Moderate items - from $3 to $15
-      basePrice = Math.random() * 12 + 3;
+      // Moderate items - from $25 to $75
+      basePrice = Math.random() * 50 + 25;
     }
     const price = Math.round(basePrice * 100) / 100;
     const originalLink = `https://amazon.com/s?k=${encodeURIComponent(query)}`;
@@ -204,15 +204,15 @@ export class ShoppingAPIIntegrator {
 
   private getMockEbayResults(query: string, _budget: number): ProductResult[] {
     // Always prioritize cheapest options first  
-    // 85% chance of ultra-cheap items (0.01 to $2)
-    // 15% chance of moderate items ($2 to $10)
+    // 75% chance of affordable items ($3 to $20)
+    // 25% chance of moderate items ($20 to $50)
     let basePrice;
-    if (Math.random() < 0.85) {
-      // Ultra-cheap items - from 1 cent to $2
-      basePrice = Math.random() * 1.99 + 0.01;
+    if (Math.random() < 0.75) {
+      // Affordable items - from $3 to $20
+      basePrice = Math.random() * 17 + 3;
     } else {
-      // Moderate items - from $2 to $10
-      basePrice = Math.random() * 8 + 2;
+      // Moderate items - from $20 to $50
+      basePrice = Math.random() * 30 + 20;
     }
     const price = Math.round(basePrice * 100) / 100;
     const originalLink = `https://ebay.com/sch/i.html?_nkw=${encodeURIComponent(query)}`;
@@ -234,15 +234,15 @@ export class ShoppingAPIIntegrator {
 
   private getMockTargetResults(query: string, _budget: number): ProductResult[] {
     // Always prioritize cheapest options first
-    // 75% chance of ultra-cheap items (0.01 to $4)
-    // 25% chance of moderate items ($4 to $12)
+    // 70% chance of affordable items ($8 to $35)
+    // 30% chance of moderate items ($35 to $80)
     let basePrice;
-    if (Math.random() < 0.75) {
-      // Ultra-cheap items - from 1 cent to $4
-      basePrice = Math.random() * 3.99 + 0.01;
+    if (Math.random() < 0.7) {
+      // Affordable items - from $8 to $35
+      basePrice = Math.random() * 27 + 8;
     } else {
-      // Moderate items - from $4 to $12
-      basePrice = Math.random() * 8 + 4;
+      // Moderate items - from $35 to $80
+      basePrice = Math.random() * 45 + 35;
     }
     const price = Math.round(basePrice * 100) / 100;
     const originalLink = `https://target.com/s?searchTerm=${encodeURIComponent(query)}`;

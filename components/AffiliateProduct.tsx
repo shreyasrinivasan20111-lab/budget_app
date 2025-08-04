@@ -40,27 +40,42 @@ const AffiliateProduct: React.FC<AffiliateProductProps> = ({
   isInWishlist
 }) => {
   const handleAffiliateClick = async () => {
+    // Validate the affiliate link before opening
+    if (!product.affiliateLink || product.affiliateLink === '#') {
+      console.error('Invalid affiliate link:', product.affiliateLink);
+      alert('Sorry, this product link is not available. Please try another product.');
+      return;
+    }
+
     // Track the affiliate click
-    await affiliateManager.trackAffiliateClick(
-      product.store,
-      product.id,
-      undefined, // userId - you can add user tracking here
-      {
-        productName: product.name,
-        price: product.price,
-        currency,
-        timestamp: new Date().toISOString()
-      }
-    );
+    try {
+      await affiliateManager.trackAffiliateClick(
+        product.store,
+        product.id,
+        undefined, // userId - you can add user tracking here
+        {
+          productName: product.name,
+          price: product.price,
+          currency,
+          timestamp: new Date().toISOString()
+        }
+      );
+    } catch (error) {
+      console.error('Failed to track affiliate click:', error);
+      // Continue with link opening even if tracking fails
+    }
 
     // Open the affiliate link
+    console.log('Opening affiliate link for:', product.name);
     window.open(product.affiliateLink, '_blank', 'noopener,noreferrer');
   };
 
   const getCurrencySymbol = (curr: string) => {
     const symbols: Record<string, string> = {
       USD: '$', EUR: '€', GBP: '£', JPY: '¥', CAD: 'C$',
-      AUD: 'A$', CHF: 'CHF', CNY: '¥', INR: '₹', BRL: 'R$'
+      AUD: 'A$', CHF: 'CHF', CNY: '¥', INR: '₹', BRL: 'R$',
+      KRW: '₩', MXN: '$', SGD: 'S$', HKD: 'HK$', NOK: 'kr',
+      SEK: 'kr', DKK: 'kr', PLN: 'zł', CZK: 'Kč', HUF: 'Ft'
     };
     return symbols[curr] || curr;
   };
@@ -87,7 +102,8 @@ const AffiliateProduct: React.FC<AffiliateProductProps> = ({
             className="w-16 h-16 object-cover rounded-md"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
+              target.src = '/placeholder-image.svg';
+              target.onerror = null; // Prevent infinite loop
             }}
           />
         )}
